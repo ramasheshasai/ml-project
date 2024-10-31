@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Price Predictor</title>
+</head>
+<body>
+    <h1>Predict Future Stock Prices</h1>
+    <form action="/predict" method="POST">
+        <label for="stock">Choose Stock:</label>
+        <select name="stock" id="stock">
+            <option value="MSFT">Microsoft (MSFT)</option>
+            <option value="AMZN">Amazon (AMZN)</option>
+            <option value="DSNY">Disney (DSNY)</option>
+            <option value="META">Meta (META)</option>
+            <option value="NIKE">Nike (NIKE)</option>
+            <option value="RELI">Reliance (RELI)</option>
+            <option value="TSLA">Tesla (TSLA)</option>
+        </select>
+        <br><br>
+        <label for="date">Future Date (MM-DD-YYYY):</label>
+        <input type="text" id="date" name="date" required>
+        <br><br>
+        <button type="submit">Predict</button>
+    </form>
+    {% if prediction %}
+        <h2>{{ prediction }}</h2>
+    {% elif error %}
+        <h2 style="color:red;">{{ error }}</h2>
+    {% endif %}
+</body>
+</html>
