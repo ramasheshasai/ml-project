@@ -11,7 +11,7 @@ def index():
 @app.route('/predict', methods=['POST'])
 def predict():
     stock = request.form['stock']
-    future_date = request.form['Date']
+    future_date = request.form['date']
     filename = f"{stock.upper()}_updated.csv"  # Match filename format with '_updated' suffix
 
     try:
