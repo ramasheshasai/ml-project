@@ -3,31 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Price Predictor</title>
+    <title>AI Stock Price Predictor - Advanced ML Predictions</title>
+    <meta name="description" content="Predict future stock prices using advanced machine learning algorithms. Get accurate predictions for major stocks including MSFT, AMZN, TSLA, and more.">
+    
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
 </head>
 <body>
-    <h1>Predict Future Stock Prices</h1>
-    <form action="/predict" method="POST">
-        <label for="stock">Choose Stock:</label>
-        <select name="stock" id="stock">
-            <option value="MSFT">Microsoft (MSFT)</option>
-            <option value="AMZN">Amazon (AMZN)</option>
-            <option value="DSNY">Disney (DSNY)</option>
-            <option value="META">Meta (META)</option>
-            <option value="NIKE">Nike (NIKE)</option>
-            <option value="RELI">Reliance (RELI)</option>
-            <option value="TSLA">Tesla (TSLA)</option>
-        </select>
-        <br><br>
-        <label for="date">Future Date (MM-DD-YYYY):</label>
-        <input type="text" id="Date" name="Date" required>
-        <br><br>
-        <button type="submit">Predict</button>
-    </form>
-    {% if prediction %}
-        <h2>{{ prediction }}</h2>
-    {% elif error %}
-        <h2 style="color:red;">{{ error }}</h2>
-    {% endif %}
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>🤖 AI Stock Price Predictor</h1>
+            <p>Harness the power of machine learning to predict future stock prices with advanced algorithms</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Prediction Form Card -->
+            <section class="prediction-card">
+                <h2 class="card-title">
+                    <span class="card-icon">📊</span>
+                    Make Your Prediction
+                </h2>
+                
+                <form id="predictionForm" action="/predict" method="POST">
+                    <div class="form-group">
+                        <label for="stock" class="form-label">Select Stock Symbol</label>
+                        <select name="stock" id="stock" class="form-select" required>
+                            <option value="">Choose a stock...</option>
+                            <option value="MSFT">Microsoft (MSFT)</option>
+                            <option value="AMZN">Amazon (AMZN)</option>
+                            <option value="DSNY">Disney (DSNY)</option>
+                            <option value="META">Meta (META)</option>
+                            <option value="NIKE">Nike (NIKE)</option>
+                            <option value="RELI">Reliance (RELI)</option>
+                            <option value="TSLA">Tesla (TSLA)</option>
+                            <option value="NVDA">NVIDIA (NVDA)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="Date" class="form-label">Future Date (MM/DD/YYYY)</label>
+                        <input 
+                            type="text" 
+                            id="Date" 
+                            name="Date" 
+                            class="form-input" 
+                            placeholder="12/31/2024"
+                            maxlength="10"
+                            required
+                        >
+                        <small style="color: #718096; font-size: 0.85rem; margin-top: 0.25rem; display: block;">
+                            Enter a date in the future to get price predictions
+                        </small>
+                    </div>
+                    
+                    <button type="submit" class="predict-btn" id="predictBtn">
+                        <span class="btn-text">🚀 Predict Stock Price</span>
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <span>Analyzing...</span>
+                        </div>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Information Card -->
+            <section class="info-card">
+                <h2 class="info-title">
+                    <span class="card-icon">💼</span>
+                    Available Stocks
+                </h2>
+                
+                <div class="stock-grid">
+                    <div class="stock-item">
+                        <div class="stock-symbol">MSFT</div>
+                        <div class="stock-name">Microsoft</div>
+                    </div>
+                    <div class="stock-item">
+                        <div class="stock-symbol">AMZN</div>
+                        <div class="stock-name">Amazon</div>
+                    </div>
+                    <div class="stock-item">
+                        <div class="stock-symbol">TSLA</div>
+                        <div class="stock-name">Tesla</div>
+                    </div>
+                    <div class="stock-item">
+                        <div class="stock-symbol">META</div>
+                        <div class="stock-name">Meta</div>
+                    </div>
+                    <div class="stock-item">
+                        <div class="stock-symbol">NVDA</div>
+                        <div class="stock-name">NVIDIA</div>
+                    </div>
+                    <div class="stock-item">
+                        <div class="stock-symbol">NIKE</div>
+                        <div class="stock-name">Nike</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem; padding: 1rem; background: #f7fafc; border-radius: 12px; border-left: 4px solid #4299e1;">
+                    <h3 style="color: #2d3748; font-size: 1rem; margin-bottom: 0.5rem;">🧠 How It Works</h3>
+                    <p style="color: #718096; font-size: 0.9rem; line-height: 1.5;">
+                        Our AI model analyzes historical stock data using linear regression to identify patterns and trends, 
+                        then extrapolates future price movements based on temporal relationships.
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Results Section -->
+        <section id="resultsSection" class="results-section">
+            {% if prediction %}
+                <div class="result-card result-success fade-in" data-prediction="{{ prediction }}">
+                    <div class="result-title">📈 Prediction Result</div>
+                    <div class="result-content">
+                        <div class="price-highlight">{{ prediction }}</div>
+                        <div style="font-size: 0.9rem; color: #a0aec0; margin-top: 1rem;">
+                            <em>⚠️ This prediction is for educational purposes only and should not be used as investment advice.</em>
+                        </div>
+                    </div>
+                </div>
+            {% elif error %}
+                <div class="result-card result-error fade-in" data-error="{{ error }}">
+                    <div class="result-title">❌ Prediction Error</div>
+                    <div class="result-content">{{ error }}</div>
+                </div>
+            {% endif %}
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">AI-Powered</h3>
+                    <p class="feature-description">
+                        Advanced machine learning algorithms analyze market patterns and historical data
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Real-Time</h3>
+                    <p class="feature-description">
+                        Get instant predictions with our optimized prediction engine
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Multiple Stocks</h3>
+                    <p class="feature-description">
+                        Support for major stocks including tech giants and market leaders
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Secure</h3>
+                    <p class="feature-description">
+                        Your data is processed securely with no personal information stored
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer style="text-align: center; margin-top: 3rem; padding: 2rem; color: rgba(255,255,255,0.7);">
+            <p style="margin-bottom: 0.5rem;">
+                <strong>Disclaimer:</strong> This tool is for educational and research purposes only.
+            </p>
+            <p style="font-size: 0.9rem;">
+                Stock predictions should not be used as the sole basis for investment decisions. 
+                Always consult with financial professionals before making investment choices.
+            </p>
+            <div style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.6;">
+                Powered by Flask & Scikit-learn | Built with ❤️ for learning
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

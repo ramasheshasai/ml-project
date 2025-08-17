@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from model import train_and_predict
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 # Route for the main page
 @app.route('/')
